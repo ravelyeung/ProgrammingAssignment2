@@ -32,19 +32,26 @@
 ## Okay. The coding below is what I do for this assignment:
 
 makeCacheMatrix <- function(x = matrix()) {
-        ## 0. Clear m, to make sure it has nothing in
-        m <- NULL
-        ## 1. set the value of the matrix
-        set <- function(y){
-                x <<- y
-                m <<- NULL
-        }
-        ## 2. get the value of the matrix
-        get <- function() x
-        ## 3. set the value of the matrix
-        setinv <- function(inverse) m <<- inverse
-        ## 4. get the value of the matrix
-        getinv <- function() m
+    ## 0. Clear m, to make sure it has nothing in
+    m <- NULL
+    
+    ## 1. set the value of the matrix
+    set <- function(y) {
+        x <<- y
+        m <<- NULL
+    }
+    
+    ## 2. get the value of the matrix
+    get <- function() x
+    
+    ## 3. set the value of the matrix
+    setinv <- function(inverse) m <<- inverse
+    
+    ## 4. get the value of the matrix
+    getinv <- function() m
+    
+    ## 5. list them up and return
+    list(set = set, get = get, setinv = setinv, getinv = getinv)
 }
 
 ## Then, I finished half of the programming assignment :)
@@ -76,22 +83,23 @@ makeCacheMatrix <- function(x = matrix()) {
 ## it calculates the inverse matrix and sets the inverse matrix in the cache via the setinv function. 
 
 cacheSolve <- function(x, ...) {
-        
-        ## 0. get the cached value
-        m <- x$getinv()
-        
-        ## 1. check if it has been calculated or not. If yes, a cached value exists, then return it.
-        ## and finish the function.
-        if(!is.na(m)){
-                message("getting cached data")
-                return(m)
-        }
-        
-        ## 2. If not, calculate the inverse by the "solve()" function, which is suggested by the page.
-        data <- x$get()
-        m <- solve(data,...)
-        x$setinv(m)
-        
-        ## 3. return the calculated inverse matrix.
-        m
+    
+    ## 0. get the cached value
+    m <- x$getinv()
+    
+    ## 1. check if it has been calculated or not. If yes, a cached value exists, then return it.
+    ## and finish the function.
+    if(!is.null(m))
+    {
+        message("getting cached data")
+        return(m)
+    }
+    
+    ## 2. If not, calculate the inverse by the "solve()" function, which is suggested by the page.
+    data <- x$get()
+    m <- solve(data,...)
+    x$setinv(m)
+    
+    ## 3. return the calculated inverse matrix.
+    m
 }
